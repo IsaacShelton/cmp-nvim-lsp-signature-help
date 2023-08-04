@@ -33,6 +33,11 @@ end
 source.complete = function(self, params, callback)
   local client = self:_get_client()
   local trigger_characters = {}
+
+  if not client then
+    return callback({ isIncomplete = true })
+  end
+
   for _, c in ipairs(self:_get(client.server_capabilities, { 'signatureHelpProvider', 'triggerCharacters' }) or {}) do
     table.insert(trigger_characters, c)
   end
@@ -100,7 +105,9 @@ source._item = function(self, signature, parameter_index)
 
   -- @see https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#signatureHelp
   if #parameters < parameter_index or parameter_index < 1 then
-    parameter_index = 1
+    return {
+      label = 'No more params',
+    }
   end
 
   local arguments = {}
@@ -115,6 +122,9 @@ source._item = function(self, signature, parameter_index)
   end
 
   local label = table.concat(arguments, ', ')
+  if parameter_index == #parameters then
+    label = label .. ' (Last)'
+  end
   return {
     label = label,
     filterText = ' ',
