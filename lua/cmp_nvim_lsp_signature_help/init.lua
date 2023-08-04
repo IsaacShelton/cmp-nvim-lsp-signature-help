@@ -116,7 +116,7 @@ source._item = function(self, signature, parameter_index)
 
   local label = table.concat(arguments, ', ')
   return {
-    label = '-> -> ' .. label,
+    label = label,
     filterText = ' ',
     insertText = self:_matchstr(label, [[\k\+]]),
     word = '',
@@ -164,12 +164,12 @@ source._docs = function(self, signature, parameter_index)
 end
 
 source._signature_label = function(self, signature, parameter_index)
-  local label = signature.label
+  local label = string.gsub(signature.label, "_", "\\_")
   if parameter_index then
     local s, e = string.find(label, self:_parameter_label(signature, signature.parameters[parameter_index]), 1, true)
     if s and e then
       local active = string.sub(label, s, e)
-      label = string.gsub(label, vim.pesc(active), '***' .. active .. '***')
+      label = string.gsub(label, vim.pesc(active), ' > ' .. active .. ' < ')
     end
   end
   return label
