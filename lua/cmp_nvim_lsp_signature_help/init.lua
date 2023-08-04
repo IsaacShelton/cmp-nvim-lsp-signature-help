@@ -164,7 +164,7 @@ source._docs = function(self, signature, parameter_index)
 end
 
 source._signature_label = function(self, signature, parameter_index)
-  local label = string.gsub(signature.label, "_", "\\_")
+  local label = signature.label
   if parameter_index then
     local s, e = string.find(label, self:_parameter_label(signature, signature.parameters[parameter_index]), 1, true)
     if s and e then
@@ -172,7 +172,7 @@ source._signature_label = function(self, signature, parameter_index)
       label = string.gsub(label, vim.pesc(active), ' > ' .. active .. ' < ')
     end
   end
-  return label
+  return "`" .. label .. "`"
 end
 
 source._parameter_label = function(_, signature, parameter)
