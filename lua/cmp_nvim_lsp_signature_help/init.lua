@@ -172,7 +172,7 @@ source._signature_label = function(self, signature, parameter_index)
       label = string.gsub(label, vim.pesc(active), '***' .. active .. '***')
     end
   end
-  return string.gsub(label, "_", "\_")
+  return string.gsub(label, "_", "\\_")
 end
 
 source._parameter_label = function(_, signature, parameter)
