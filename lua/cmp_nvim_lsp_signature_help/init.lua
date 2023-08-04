@@ -116,7 +116,7 @@ source._item = function(self, signature, parameter_index)
 
   local label = table.concat(arguments, ', ')
   return {
-    label = string.gsub(label, "_", "\\_"),
+    label = '-> -> ' .. label,
     filterText = ' ',
     insertText = self:_matchstr(label, [[\k\+]]),
     word = '',
